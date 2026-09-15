@@ -19,7 +19,17 @@
 
 ---
 
-## The Story
+**Live application:**  [Portfolio]((https://supipi-amarajeeva-portfolio-en.vercel.app/))
+
+**Demo:** 
+
+https://github.com/user-attachments/assets/2fbd46b6-4433-4f0d-9ad2-01bd9eeaec02
+
+
+
+---
+
+## About the Portfolio
 
 This portfolio was designed as a digital newspaper.
 
@@ -66,4 +76,4 @@ Inside you'll find selected projects, professional experiences, a photography jo
   Git · GitHub · Vercel
 </p>
 
----
+
