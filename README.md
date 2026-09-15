@@ -35,7 +35,7 @@ This portfolio was designed as a digital newspaper.
 
 Instead of a traditional developer portfolio, I wanted to create something that felt more personal and editorial, combining software engineering, design, storytelling and photography into a single experience.
 
-Inside you'll find selected projects, professional experiences, a photography journal, an interactive crossword puzzle and the story of how a girl from Sri Lanka ended up studying and building software in France.
+Inside you'll find selected projects, professional experiences, a photography journal, an interactive crossword puzzle and my journey of studying and building software in France.
 
 ---
 
