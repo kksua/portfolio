@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f3efe6;
+  --color-ink: #111111;
+  --color-muted: #595750;
+  --color-accent: #6f1d1b;
+  --color-border: #1a1a1a;
+  --font-sans: 'Inter', 'Segoe UI', sans-serif;
+  --font-serif: 'Libre Baskerville', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+}
+
+:root {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #111111;
+  background: #f3efe6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  font-size: 17px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #f3efe6;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: #111111;
+  background:
+    linear-gradient(rgba(17, 17, 17, 0.02), rgba(17, 17, 17, 0.02)),
+    #f3efe6;
+  font-size: 17px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+p,
+li,
+a,
+blockquote {
+  font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+.font-display,
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+}
+
+.about-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 0 1.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #111111;
+}
+
+.about-column + .about-column {
+  border-left: 1px solid rgba(17, 17, 17, 0.28);
+}
+
+.about-column-left {
+  padding-left: 0;
+  padding-right: 1.75rem;
+}
+
+.about-column-right {
+  padding-left: 1.75rem;
+  padding-right: 0;
+}
+
+.about-column-center {
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+
+.about-column p,
+.about-column blockquote {
+  margin: 0;
+  text-align: justify;
+  text-wrap: pretty;
+}
+
+.about-drop-cap::first-letter {
+  float: left;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 4.6em;
+  line-height: 0.8;
+  font-weight: 700;
+  margin: 0.08em 0.16em 0 0;
+  color: #111111;
+}
+
+.about-quote {
+  margin: 0.25rem 0;
+  padding-left: 1rem;
+  border-left: 1px solid #1a1a1a;
+  font-size: 1.15em;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.about-portrait {
+  position: relative;
+  margin: 0 0 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.8);
+  background: #f3efe6;
+  overflow: hidden;
+}
+
+.about-portrait::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(170, 141, 104, 0.12);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(17, 17, 17, 0.08) 0.7px, transparent 0.8px),
+    radial-gradient(rgba(255, 255, 255, 0.12) 0.7px, transparent 0.8px);
+  background-size: 6px 6px;
+  background-position: 0 0, 3px 3px;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.about-portrait img {
+  display: block;
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  transform: scale(1.01);
+  position: relative;
+  z-index: 0;
+}
+
+.about-portrait figcaption {
+  padding: 0.6rem 0.75rem 0.7rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18rem;
+  text-transform: uppercase;
+  color: #595750;
+  border-top: 1px solid rgba(17, 17, 17, 0.8);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: #111111;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.ticker-track {
+  animation: ticker-scroll 28s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 1024px) {
+  :root,
+  body {
+    font-size: 16px;
+  }
+
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .about-column {
+    padding: 0 1.25rem;
+    font-size: 1rem;
+    line-height: 1.9;
+    text-align: justify;
+  }
+
+  .about-column p {
+    margin: 0 0 1.15rem;
+    text-wrap: pretty;
+  }
+
+  .about-column + .about-column {
+    border-left: 1px solid rgba(17, 17, 17, 0.28);
+  }
+
+  .about-column-left {
+    padding-right: 1.25rem;
+  }
+
+  .about-column-right {
+    padding-left: 1.25rem;
+  }
+
+  .about-column-center {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .about-quote {
+    margin: 0.9rem 0 1.1rem;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(17, 17, 17, 0.65);
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 1.12rem;
+    font-style: italic;
+    line-height: 1.6;
+    text-align: left;
+    color: rgba(17, 17, 17, 0.85);
+  }
+
+  .about-drop-cap:first-letter {
+    float: left;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 3.4rem;
+    line-height: 0.9;
+    padding-right: 0.45rem;
+    padding-top: 0.35rem;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .about-column,
+  .about-column-left,
+  .about-column-center,
+  .about-column-right {
+    padding: 0;
+    border-left: none;
+  }
+
+  .about-column + .about-column {
+    border-left: none;
+    border-top: 1px solid rgba(17, 17, 17, 0.28);
+    padding-top: 1.25rem;
+  }
+
+  .about-column {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .about-portrait img {
+    height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
