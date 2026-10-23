@@ -55,7 +55,9 @@ export function Header() {
         <div className="justify-self-start">
           {date} | {time}
         </div>
-        <div className="justify-self-center">Junior Software Engineer</div>
+        <div className="justify-self-center">
+          Digital Project & Product Management
+        </div>
         <div className="justify-self-end">Paris, France</div>
       </div>
 

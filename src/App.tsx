@@ -21,7 +21,7 @@ function App() {
         className="mx-auto max-w-[1400px] border-x border-ink bg-paper"
       >
         <Header />
-        <Ticker text="LOOKING FOR CDI OR CDD OPPORTUNITIES IN SOFTWARE ENGINEERING IN FRANCE" />
+        <Ticker text="SEEKING A 12-MONTH ALTERNANCE IN DIGITAL PROJECT & PRODUCT MANAGEMENT IN FRANCE, STARTING IN FEBRUARY 2027" />
         <Navigation />
         <main className="divide-y divide-ink">
           <About />

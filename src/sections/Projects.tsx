@@ -235,7 +235,6 @@ function TechCrossword() {
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const completionRef = useRef<HTMLDivElement | null>(null);
-  const wasSolvedRef = useRef(false);
 
   const filledCells = useMemo(() => {
     const cells = Array.from({ length: gridRows }, () =>
@@ -294,15 +293,32 @@ function TechCrossword() {
     return numbers;
   }, []);
 
-  const [entries, setEntries] = useState<Record<string, string>>({});
+  const [{ entries, completionDismissed }, setBoard] = useState({
+    entries: {} as Record<string, string>,
+    completionDismissed: false,
+  });
+
+  const updateEntries = (update: (current: Record<string, string>) => Record<string, string>) => {
+    setBoard((current) => {
+      const nextEntries = update(current.entries);
+      const solved = clues.every((clue) =>
+        clue.cells.every(
+          ({ row, col }, index) =>
+            (nextEntries[`${row}-${col}`] ?? "") === clue.answer[index],
+        ),
+      );
+      return {
+        entries: nextEntries,
+        completionDismissed: solved && current.completionDismissed,
+      };
+    });
+  };
 
   const [activeId, setActiveId] = useState("A5");
 
   const [status, setStatus] = useState("");
 
   const [statusSuccess, setStatusSuccess] = useState(false);
-
-  const [showCompletion, setShowCompletion] = useState(false);
 
   const activeClue = clues.find((clue) => clue.id === activeId) ?? clues[0];
 
@@ -313,24 +329,8 @@ function TechCrossword() {
     ),
   );
 
-  /*
-   * Show congratulations only when the puzzle
-   * transitions from unsolved -> solved.
-   *
-   * This means that after the user dismisses the
-   * message, it will stay closed.
-   */
-  useEffect(() => {
-    if (allSolved && !wasSolvedRef.current) {
-      setShowCompletion(true);
-    }
-
-    if (!allSolved) {
-      setShowCompletion(false);
-    }
-
-    wasSolvedRef.current = allSolved;
-  }, [allSolved]);
+  // Dismissal lasts until an edit makes the puzzle unsolved again.
+  const showCompletion = allSolved && !completionDismissed;
 
   /*
    * Close congratulations when clicking anywhere
@@ -343,7 +343,7 @@ function TechCrossword() {
       const target = event.target as Node;
 
       if (completionRef.current && !completionRef.current.contains(target)) {
-        setShowCompletion(false);
+        setBoard((current) => ({ ...current, completionDismissed: true }));
       }
     };
 
@@ -439,7 +439,7 @@ function TechCrossword() {
 
     const key = `${row}-${col}`;
 
-    setEntries((current) => ({
+    updateEntries((current) => ({
       ...current,
       [key]: nextValue,
     }));
@@ -503,7 +503,7 @@ function TechCrossword() {
       nextEntries[`${row}-${col}`] = activeClue.answer[index];
     });
 
-    setEntries(nextEntries);
+    updateEntries(() => nextEntries);
 
     setStatus("REVEALED");
     setStatusSuccess(true);
@@ -514,12 +514,10 @@ function TechCrossword() {
   };
 
   const resetBoard = () => {
-    setEntries({});
+    setBoard({ entries: {}, completionDismissed: false });
     setStatus("");
     setStatusSuccess(false);
     setActiveId("A5");
-    setShowCompletion(false);
-    wasSolvedRef.current = false;
   };
 
   const checkCurrent = () => {

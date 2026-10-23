@@ -1,4 +1,4 @@
-import { Download, Mail, ExternalLink } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
 
 const contactLinks = [
   { label: "Email", href: "mailto:supipiamarajeeva@gmail.com", icon: Mail },
@@ -9,9 +9,9 @@ const contactLinks = [
   },
   { label: "GitHub", href: "https://github.com/kksua", icon: ExternalLink },
   {
-    label: "Download CV",
-    href: "/images/Supipi%20Amarajeeva-CV.pdf",
-    icon: Download,
+    label: "View CV",
+    href: "/images/SUPIPI-AMARAJEEVA-Resume%20en.pdf",
+    icon: ExternalLink,
   },
 ];
 
@@ -26,8 +26,8 @@ export function Contact() {
 
       <div className="mt-8 grid gap-8 md:grid-cols-[1.2fr_1.5fr] md:items-end">
         <p className="max-w-lg text-[1rem] leading-relaxed text-ink md:text-[1.3rem]">
-          I&apos;m currently looking for CDI/CDD opportunities in France. If you
-          have an opportunity or would simply like to connect, feel free to
+          I&apos;m currently looking for Alternance opportunities in France. If
+          you have an opportunity or would simply like to connect, feel free to
           reach out by email or LinkedIn. <br /> I would love to chat!
         </p>
 

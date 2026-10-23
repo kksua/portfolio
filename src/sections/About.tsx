@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 type ArticleBlock = {
@@ -9,172 +9,144 @@ type ArticleBlock = {
 const articleBlocks: ArticleBlock[] = [
   {
     type: "paragraph",
-    text: "My life took a 180-degree turn when my dad told me that he was willing to support my dream of studying in France. It is a story I will probably always tell with the proudest smile on my face.",
+    text: "My life took a 180-degree turn when my dad told me he would support my dream of studying in France. At 18, I left Sri Lanka to pursue an engineering degree, stepping into a new country, a new language and a life I was excited and slightly terrified to figure out.",
   },
   {
     type: "paragraph",
-    text: "I was 18 when I moved to France to pursue my engineering degree. A new language, a new culture, new friends, and almost everything around me was unfamiliar for a girl coming from a small island on the other side of the world.",
+    text: "At ESIGELEC, I discovered how much I enjoyed building things. Between programming assignments and team projects, I made memories I look back on fondly. Along the way, I learned to ask questions, work through problems and appreciate the people figuring things out beside me.",
   },
   {
     type: "paragraph",
-    text: "When I stepped into Grande École, I made one promise to myself: say yes to the opportunities that come my way, even when they scare me a little, and make my parents proud along the way.",
-  },
-  {
-    type: "quote",
-    text: "“You don’t have to see the whole staircase, just take the first step.”",
+    text: "Second year of my studies I moved to Berlin for an internship at Art & Science Node. Building a website alongside artists, scientists and designers showed me how differently people can approach the same project. I also supported two fellow interns with web development, learning how to explain technical ideas in ways that made sense to someone encountering them for the first time.",
   },
   {
     type: "paragraph",
-    text: "And I think that describes those years quite well. The journey was not always easy, but I learned that with enough curiosity, courage and motivation, you can wake up every day a little closer to the person you want to become.",
+    text: "During my final internship at Rivière Yuan, an EdTech startup, I worked on digital products and communicated directly with clients. Understanding their needs, discussing feedback and helping prioritise requests became some of my favourite parts of the work. I found myself increasingly curious about how we decide what to build and how we bring it all together.",
   },
   {
     type: "paragraph",
-    text: "There were only four girls in my class. Turn your head in almost any direction and you would spot a guy. But somewhere between programming assignments, group projects, deadlines and many hours spent figuring out why something that should work absolutely refused to work, I found the field where I belonged.",
+    text: "That experience sparked my interest in project management and strengthened my passion for creating useful digital experiences. It also gave me a clearer direction: digital project and product management, where I could bring my technical background into conversations about user needs and business goals.",
   },
   {
     type: "paragraph",
-    text: "My first experience of professional life, however, looked very different from writing code. During my first year, I had the opportunity to gain industrial experience at La Poste, working as a production agent sorting arriving and departing parcels. The work was physically demanding, but it taught me something I still carry into every team I join: good work is rarely an individual effort.",
-  },
-  {
-    type: "paragraph",
-    text: "What I remember most is the team spirit. Even during exhausting shifts, people found ways to make the work enjoyable. They also gave me one of the biggest pushes I needed at the time: speaking French. I wasn’t confident in my communication skills yet, but there was no hiding behind English. I had to speak, make mistakes, laugh about them, and try again.",
-  },
-  {
-    type: "paragraph",
-    text: "A year later, the journey took me somewhere new again: Berlin, Germany. I joined Art & Science Node, a Berlin-based organisation, as a programming intern. It became one of those experiences that changes the way you look at your own profession. True to its name, the environment brought together art, science and technology.",
-  },
-  {
-    type: "paragraph",
-    text: "Suddenly, I wasn’t learning only from engineers. I was exchanging ideas with artists, scientists, designers and people who approached problems completely differently from the way I had been taught in engineering school. And I loved it.",
-  },
-  {
-    type: "paragraph",
-    text: "It made me realise that technology becomes much more interesting when it doesn’t exist in isolation. Code can be functional, but it can also communicate, create experiences, tell stories and bring ideas from completely different disciplines together.",
-  },
-  {
-    type: "quote",
-    text: "“Good work is rarely an individual effort.”",
-  },
-  {
-    type: "paragraph",
-    text: "That idea followed me into my final internship, where I moved deeper into full-stack development and generative AI. I worked on real products using React, TypeScript, Node.js and PostgreSQL, while experimenting with RAG systems and AI-powered experiences. This time, I wasn’t simply asking myself, “Can I build this?” I started asking, “Who am I building this for, and how can I make their experience better?”",
-  },
-  {
-    type: "paragraph",
-    text: "That small change in question shaped the kind of engineer I want to become. Today, I am an engineering graduate who still likes being somewhere between technology, design and creativity. I enjoy building interfaces as much as thinking about the systems behind them. I love experimenting with AI, but I care just as much about whether the final product feels intuitive, useful and human.",
-  },
-  {
-    type: "paragraph",
-    text: "And after moving countries, learning languages, working in completely different environments and saying yes to opportunities I once would have been terrified to take, there is one thing I have become quite comfortable with: not knowing exactly what comes next. Because so far, the unfamiliar places have been where I have learned the most.",
+    text: "My next chapter is a second master’s in International Marketing, building my knowledge of customer research, market analysis and strategy. Alongside it, I’m looking for a 12-month alternance starting in February 2027, where I can contribute, keep learning and help bring ideas to life with a team.",
   },
 ];
 
-function estimateBlockHeight(block: ArticleBlock, columnWidthFactor: number) {
-  /*
-   * Rough approximation of how many characters fit on a line.
-   * Wider center column gets a larger factor, which means fewer lines.
-   */
-  const baseCharsPerLine = 52 * columnWidthFactor;
+// Offsets count every character, including spaces and paragraph separators.
+const articleText = articleBlocks.map((block) => block.text).join("\n\n");
+const wordEnds = [...articleText.matchAll(/\S+(?:\s+|$)/g)].map(
+  (match) => match.index + match[0].length,
+);
 
-  const estimatedLines = Math.ceil(block.text.length / baseCharsPerLine);
+function sliceArticle(start: number, end: number): ArticleBlock[] {
+  let offset = 0;
 
-  /*
-   * Quotes usually take up more visual space because they tend
-   * to have larger type and more spacing.
-   */
-  const lineHeight = block.type === "quote" ? 1.65 : 1.75;
+  return articleBlocks.flatMap((block) => {
+    const blockStart = offset;
+    offset += block.text.length + 2;
+    const text = block.text
+      .slice(Math.max(0, start - blockStart), Math.max(0, end - blockStart))
+      .trim();
 
-  const spacing = block.type === "quote" ? 2.6 : 1.4;
-
-  return estimatedLines * lineHeight + spacing;
+    return text ? [{ ...block, text }] : [];
+  });
 }
 
-function distributeBalancedColumns(
-  blocks: ArticleBlock[],
-): [ArticleBlock[], ArticleBlock[], ArticleBlock[]] {
-  /*
-   * Relative column widths:
-   *
-   * left   = 1
-   * center = 1.5
-   * right  = 1
-   */
-  const widthFactors = [1, 1.5, 1];
+function splitArticle(leftEnd: number, centerEnd: number) {
+  return [
+    sliceArticle(0, leftEnd),
+    sliceArticle(leftEnd, centerEnd),
+    sliceArticle(centerEnd, articleText.length),
+  ];
+}
 
-  /*
-   * The portrait occupies vertical space in the center column.
-   * Increase this if the center column ends lower than the others.
-   * Decrease it if the center column ends higher.
-   */
-  const portraitHeightPenalty = 17;
-
-  const leftHeights = blocks.map((block) =>
-    estimateBlockHeight(block, widthFactors[0]),
-  );
-
-  const centerHeights = blocks.map((block) =>
-    estimateBlockHeight(block, widthFactors[1]),
-  );
-
-  const rightHeights = blocks.map((block) =>
-    estimateBlockHeight(block, widthFactors[2]),
-  );
-
-  /*
-   * Try every possible sequential split:
-   *
-   * [ 0 ... leftEnd ]
-   * [ leftEnd ... centerEnd ]
-   * [ centerEnd ... end ]
-   *
-   * and choose the split where all three final visual heights
-   * are closest together.
-   */
-  let bestLeftEnd = 1;
-  let bestCenterEnd = 2;
-  let bestScore = Number.POSITIVE_INFINITY;
-
-  for (let leftEnd = 1; leftEnd < blocks.length - 1; leftEnd += 1) {
-    for (
-      let centerEnd = leftEnd + 1;
-      centerEnd < blocks.length;
-      centerEnd += 1
-    ) {
-      const leftHeight = leftHeights
-        .slice(0, leftEnd)
-        .reduce((sum, value) => sum + value, 0);
-
-      const centerHeight =
-        centerHeights
-          .slice(leftEnd, centerEnd)
-          .reduce((sum, value) => sum + value, 0) + portraitHeightPenalty;
-
-      const rightHeight = rightHeights
-        .slice(centerEnd)
-        .reduce((sum, value) => sum + value, 0);
-
-      const maxHeight = Math.max(leftHeight, centerHeight, rightHeight);
-
-      const minHeight = Math.min(leftHeight, centerHeight, rightHeight);
-
-      /*
-       * Lower score = more even column endings.
-       */
-      const score = maxHeight - minHeight;
-
-      if (score < bestScore) {
-        bestScore = score;
-        bestLeftEnd = leftEnd;
-        bestCenterEnd = centerEnd;
-      }
-    }
+function balanceColumns(layout: HTMLDivElement): ArticleBlock[][] {
+  // Stacked layouts keep whole paragraphs in their natural reading order.
+  if (window.matchMedia("(max-width: 1024px)").matches) {
+    return [
+      articleBlocks.slice(0, 2),
+      articleBlocks.slice(2, 4),
+      articleBlocks.slice(4),
+    ];
   }
 
-  const leftColumn = blocks.slice(0, bestLeftEnd);
-  const centerColumn = blocks.slice(bestLeftEnd, bestCenterEnd);
-  const rightColumn = blocks.slice(bestCenterEnd);
+  const columns = Array.from(layout.children) as HTMLElement[];
+  const probes = columns.map((column) => {
+    const probe = column.cloneNode(false) as HTMLElement;
+    Object.assign(probe.style, {
+      position: "fixed",
+      top: "0",
+      left: "0",
+      width: `${column.getBoundingClientRect().width}px`,
+      height: "auto",
+      visibility: "hidden",
+      pointerEvents: "none",
+      transform: "none",
+    });
+    probe.setAttribute("aria-hidden", "true");
+    document.body.appendChild(probe);
+    return probe;
+  });
+  const portrait = columns[1].querySelector("figure")!.cloneNode(true);
 
-  return [leftColumn, centerColumn, rightColumn];
+  const measuredHeights = new Map<string, number>();
+  function measure(column: number, start: number, end: number) {
+    const key = `${column}:${start}:${end}`;
+    const cached = measuredHeights.get(key);
+    if (cached !== undefined) return cached;
+    const probe = probes[column];
+    probe.replaceChildren();
+    if (column === 1) probe.appendChild(portrait);
+    sliceArticle(start, end).forEach((block, index) => {
+      const element = document.createElement(
+        block.type === "quote" ? "blockquote" : "p",
+      );
+      element.textContent = block.text;
+      if (block.type === "quote") element.className = "about-quote";
+      else if (column === 0 && index === 0)
+        element.className = "about-drop-cap";
+      probe.appendChild(element);
+    });
+    const height = probe.getBoundingClientRect().height;
+    measuredHeights.set(key, height);
+    return height;
+  }
+
+  // Find the last word that fits; paragraphs can continue in the next column.
+  function fit(column: number, start: number, height: number) {
+    let low = 0;
+    let high = wordEnds.length;
+    while (low < high) {
+      const middle = Math.ceil((low + high) / 2);
+      const end = wordEnds[middle - 1];
+      if (end <= start || measure(column, start, end) <= height) low = middle;
+      else high = middle - 1;
+    }
+    return Math.max(start, wordEnds[low - 1] ?? 0);
+  }
+
+  try {
+    let low = measure(1, 0, 0);
+    let high = Math.max(low, measure(0, 0, articleText.length));
+    let result = splitArticle(0, 0);
+
+    // Use actual font metrics, column widths, paragraph gaps and portrait size.
+    for (let iteration = 0; iteration < 16; iteration += 1) {
+      const height = (low + high) / 2;
+      const leftEnd = fit(0, 0, height);
+      const centerEnd = fit(1, leftEnd, height);
+      if (measure(2, centerEnd, articleText.length) <= height) {
+        high = height;
+        result = splitArticle(leftEnd, centerEnd);
+      } else {
+        low = height;
+      }
+    }
+    return result;
+  } finally {
+    probes.forEach((probe) => probe.remove());
+  }
 }
 
 function ArticleContent({
@@ -209,10 +181,38 @@ function ArticleContent({
 }
 
 export function About() {
-  const distributedBlocks = useMemo(
-    () => distributeBalancedColumns(articleBlocks),
-    [],
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const [distributedBlocks, setDistributedBlocks] = useState(() =>
+    splitArticle(
+      wordEnds[Math.floor(wordEnds.length / 3)],
+      wordEnds[Math.floor((wordEnds.length * 2) / 3)],
+    ),
   );
+
+  useLayoutEffect(() => {
+    const layout = layoutRef.current!;
+    let frame = 0;
+    let disposed = false;
+    let previousWidth = 0;
+    const rebalance = () => {
+      if (disposed) return;
+      setDistributedBlocks(balanceColumns(layout));
+    };
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width === previousWidth) return;
+      previousWidth = entry.contentRect.width;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(rebalance);
+    });
+    observer.observe(layout);
+    rebalance();
+    void document.fonts.ready.then(rebalance);
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
 
   const [leftColumn, centerColumn, rightColumn] = distributedBlocks;
 
@@ -221,16 +221,16 @@ export function About() {
       {/* INTRODUCTION */}
       <div className="mb-3 border-b border-ink pb-3">
         <p className="w-full text-justify text-[1.0625rem] leading-[1.75] text-ink">
-          I am an engineering graduate interested in building thoughtful digital
-          products at the intersection of software, design and emerging
-          technology. My work spans full-stack development, interactive
-          experiences and generative AI, with a growing interest in creating
-          technology that feels useful, intuitive and human.
+          I am an engineering graduate moving towards digital project and
+          product management, with experience in full-stack development and
+          generative AI. I enjoy understanding user needs, turning feedback into
+          practical ideas and working with others to create useful, intuitive
+          digital experiences.
         </p>
       </div>
 
       {/* NEWSPAPER ARTICLE */}
-      <div className="about-layout">
+      <div className="about-layout" ref={layoutRef}>
         {/* LEFT COLUMN */}
         <motion.div
           initial={{
