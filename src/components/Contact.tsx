@@ -10,7 +10,7 @@ const contactLinks = [
   { label: "GitHub", href: "https://github.com/kksua", icon: ExternalLink },
   {
     label: "View CV",
-    href: "/images/SUPIPI-AMARAJEEVA-Resume%20en.pdf",
+    href: "/images/SUPIPI-AMARAJEEVA-Resume%20Alternance.pdf",
     icon: ExternalLink,
   },
 ];

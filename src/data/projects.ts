@@ -13,6 +13,17 @@ export type Project = {
 export const projects: Project[] = [
   {
     number: "PROJECT 01",
+    category: "BUSINESS INTELLIGENCE · SALES",
+    title: "MAVENTECH SALES ANALYSIS",
+    headline: "TURNING CRM DATA INTO SALES INSIGHTS FOR MANAGERS",
+    story:
+      "I built an interactive Power BI dashboard using a fictional B2B company’s CRM data. Designed around a quarterly sales review, it helps managers assess results, compare team performance and understand which products and customers drove sales.\n\nThe project involved cleaning data, modelling relationships and calculating performance measures. A dedicated pipeline view helps managers identify open deals for follow-up, while quarterly comparisons and company benchmarks give context to the results.",
+    image: "/images/dashboard.mp4",
+    tech: ["POWER BI", "POWER QUERY", "DAX", "DATA MODELLING", "CRM ANALYTICS"],
+    github: "https://github.com/kksua/Maven-Tech-Sales-Analysis",
+  },
+  {
+    number: "PROJECT 02",
     category: "PRODUCT · AI",
     title: "JOB APPLICATION ANALYSER",
     headline:
@@ -34,7 +45,7 @@ export const projects: Project[] = [
     demo: "https://joblyst-ai.vercel.app/",
   },
   {
-    number: "PROJECT 02",
+    number: "PROJECT 03",
     category: "TRAVEL · DATA",
     title: "SRI LANKA TRAVEL EXPLORER",
     headline:
@@ -47,7 +58,7 @@ export const projects: Project[] = [
     demo: "https://sri-lanka-tourism-blond.vercel.app/",
   },
   {
-    number: "PROJECT 03",
+    number: "PROJECT 04",
     category: "HEALTHCARE · ML",
     title: "MED'ING HACKATHON",
     headline:
@@ -66,7 +77,7 @@ export const projects: Project[] = [
     demo: "https://example.com/",
   },
   {
-    number: "PROJECT 04",
+    number: "PROJECT 05",
     category: "HACKATHON · DATA",
     title: "MONTGOMERY RISK EXPLORER",
     headline:

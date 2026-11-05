@@ -25,7 +25,7 @@ const articleBlocks: ArticleBlock[] = [
   },
   {
     type: "paragraph",
-    text: "That experience sparked my interest in project management and strengthened my passion for creating useful digital experiences. It also gave me a clearer direction: digital project and product management, where I could bring my technical background into conversations about user needs and business goals.",
+    text: "That experience sparked my interest in how technology, data and business decisions come together. I became increasingly curious about what customers need, how we measure success and how those insights shape the digital experiences we create.",
   },
   {
     type: "paragraph",
@@ -221,11 +221,11 @@ export function About() {
       {/* INTRODUCTION */}
       <div className="mb-3 border-b border-ink pb-3">
         <p className="w-full text-justify text-[1.0625rem] leading-[1.75] text-ink">
-          I am an engineering graduate moving towards digital project and
-          product management, with experience in full-stack development and
-          generative AI. I enjoy understanding user needs, turning feedback into
-          practical ideas and working with others to create useful, intuitive
-          digital experiences.
+          I am an engineering graduate with experience in full-stack development
+          and generative AI, building on my technical background through data
+          analysis and international marketing. I enjoy understanding user
+          needs, finding insights in data and working with others to create
+          useful digital experiences.
         </p>
       </div>
 

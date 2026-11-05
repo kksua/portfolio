@@ -14,6 +14,11 @@ function splitStoryIntoColumns(story: string): [string, string] {
     return ["", ""];
   }
 
+  const paragraphs = trimmed.split(/\n\s*\n/);
+  if (paragraphs.length === 2) {
+    return [paragraphs[0], paragraphs[1]];
+  }
+
   const midpoint = Math.floor(trimmed.length / 2);
   const lastSpaceBefore = trimmed.lastIndexOf(" ", midpoint);
   const firstSpaceAfter = trimmed.indexOf(" ", midpoint + 1);
@@ -51,7 +56,7 @@ export function ProjectStory({ project }: ProjectStoryProps) {
   /*
    * VIDEO POSITIONING
    *
-   * Joblyst + Montgomery:
+   * Maventech + Joblyst + Montgomery:
    * Headline -> Video -> Story -> Tech -> Buttons
    *
    * Sri Lanka + Med'Ing:
@@ -59,6 +64,7 @@ export function ProjectStory({ project }: ProjectStoryProps) {
    */
 
   const videoAfterHeadline =
+    project.title === "MAVENTECH SALES ANALYSIS" ||
     project.title === "JOB APPLICATION ANALYSER" ||
     project.title === "MONTGOMERY RISK EXPLORER";
 
@@ -95,7 +101,7 @@ export function ProjectStory({ project }: ProjectStoryProps) {
       </div>
 
       {/* VIDEO AFTER HEADLINE:
-          JOB APPLICATION ANALYSER + MONTGOMERY */}
+          MAVENTECH + JOB APPLICATION ANALYSER + MONTGOMERY */}
       {videoAfterHeadline && isVideo ? (
         <div className="flex w-full items-center justify-center overflow-hidden border border-ink bg-paper">
           <video
@@ -106,7 +112,11 @@ export function ProjectStory({ project }: ProjectStoryProps) {
             playsInline
             controls
             preload="auto"
-            className="h-[220px] w-full object-cover md:h-[360px]"
+            className={
+              project.title === "MAVENTECH SALES ANALYSIS"
+                ? "aspect-video w-full object-contain"
+                : "h-[220px] w-full object-cover md:h-[360px]"
+            }
             aria-label={project.title}
             onContextMenu={(event) => event.preventDefault()}
           />

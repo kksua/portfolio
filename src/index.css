@@ -32,6 +32,7 @@
 
 html {
   background: #f3efe6;
+  scroll-padding-top: var(--pinned-header-height, 0px);
 }
 
 body {
